@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +11,14 @@
             overflow: hidden;
             font-family: Arial, sans-serif;
         }
+
         #scene-container {
             width: 100vw;
             height: 100vh;
+            position: relative;
+            overflow: hidden;
         }
+
         #controls {
             position: fixed;
             top: 20px;
@@ -23,6 +28,7 @@
             border-radius: 5px;
             color: white;
         }
+
         button {
             padding: 8px 16px;
             margin: 5px;
@@ -32,11 +38,22 @@
             color: white;
             cursor: pointer;
         }
+
         button:hover {
             background: #45a049;
         }
+
+        .dice-hover-overlay {
+            position: absolute;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s ease;
+            border: 2px solid yellow;
+            border-radius: 50%;
+        }
     </style>
 </head>
+
 <body>
     <div id="scene-container"></div>
     <div id="controls">
@@ -46,13 +63,55 @@
     </div>
     <script type="module">
         import { DiceBox } from './src/DiceBox.js';
-        
+
         // Create a new dice box
         window.Box = new DiceBox("#scene-container", {
+            enableDiceSelection: true,
+            onDiceHover: (diceInfo) => {
+                console.log('Dice hovered:', diceInfo);
+            },
+            onDiceClick: (diceInfo) => {
+                console.log('Dice clicked:', diceInfo);
+            },
             onRollComplete: (results) => {
                 console.log('Roll results:', results);
             }
         });
+
+        document.addEventListener("diceHover", (e => {
+            const diceInfo = e.detail;
+            if (diceInfo) {
+                // Create or update an HTML overlay for the hovered die
+                let overlay = document.querySelector('.dice-hover-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'dice-hover-overlay';
+                    document.querySelector('#scene-container').appendChild(overlay);
+                }
+
+                // Position the overlay using the screen coordinates
+                overlay.style.position = 'absolute';
+                overlay.style.left = `${diceInfo.screenPosition.x}px`;
+                overlay.style.top = `${diceInfo.screenPosition.y}px`;
+
+                // Scale the overlay based on the dice size
+                const size = diceInfo.scale * 100; // Adjust multiplier as needed
+                overlay.style.width = `${size}px`;
+                overlay.style.height = `${size}px`;
+
+                // Style the overlay
+                overlay.style.border = '2px solid yellow';
+                overlay.style.borderRadius = '50%';
+                overlay.style.pointerEvents = 'none';
+                overlay.style.transition = 'all 0.5s ease';
+            } else {
+                // Remove hover effect when not hovering
+                const overlay = document.querySelector('.dice-hover-overlay');
+                if (overlay) overlay.remove();
+            }
+        }));
+
+
         window.Box.initialize();
 
         // Make rollDice function available globally
@@ -66,4 +125,5 @@
         }, 1000);
     </script>
 </body>
-</html> 
+
+</html>

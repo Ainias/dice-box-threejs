@@ -31,6 +31,9 @@ const defaultConfig = {
 	onRerollComplete: () => {},
 	onAddDiceComplete: () => {},
 	onRemoveDiceComplete: () => {},
+	enableDiceSelection: false,
+	onDiceHover: () => {},
+	onDiceClick: () => {},
 }
 
 class DiceBox {
@@ -45,6 +48,12 @@ class DiceBox {
 		this.running = false;
 		this.rolling = false;
 		this.threadid;
+
+		// Add raycaster for hover detection
+		this.raycaster = new THREE.Raycaster();
+		this.mouse = new THREE.Vector2();
+		this.hoveredDice = null;
+		this.hoverCircle = null;
 
 		this.display = {
 			currentWidth: null,
@@ -176,6 +185,24 @@ class DiceBox {
 		this.initialized = true
 
 		this.renderer.render(this.scene, this.camera);
+
+		// Create hover circle
+		if (this.enableDiceSelection) {
+			const circleGeometry = new THREE.RingGeometry(1, 1.1, 32);
+			const circleMaterial = new THREE.MeshBasicMaterial({ 
+				color: 0xffff00,
+				transparent: true,
+				opacity: 0.5,
+				side: THREE.DoubleSide
+			});
+			this.hoverCircle = new THREE.Mesh(circleGeometry, circleMaterial);
+			this.hoverCircle.visible = false;
+			this.scene.add(this.hoverCircle);
+
+			// Add event listeners
+			this.container.addEventListener('mousemove', this.onMouseMove.bind(this));
+			this.container.addEventListener('click', this.onMouseClick.bind(this));
+		}
 	}
 
 	makeWorldBox(){
@@ -910,6 +937,10 @@ class DiceBox {
 			this.scene.remove(dice); 
 			if (dice.body) this.world.removeBody(dice.body);
 		}
+		if (this.hoverCircle) {
+			this.hoverCircle.visible = false;
+			this.hoveredDice = null;
+		}
 		this.renderer.render(this.scene, this.camera);
 
 		setTimeout(() => { this.renderer.render(this.scene, this.camera); }, 100);
@@ -1142,6 +1173,108 @@ class DiceBox {
 		this.last_time = 0;
 		this.animateThrow(this.running, callback);
 
+	}
+
+	onMouseMove(event) {
+		if (!this.enableDiceSelection || this.rolling) return;
+
+		// Calculate mouse position in normalized device coordinates (-1 to +1)
+		const rect = this.container.getBoundingClientRect();
+		this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+		this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+		// Update the picking ray with the camera and mouse position
+		this.raycaster.setFromCamera(this.mouse, this.camera);
+
+		// Calculate objects intersecting the picking ray
+		const intersects = this.raycaster.intersectObjects(this.diceList);
+
+		if (intersects.length > 0) {
+			const intersectedDice = intersects[0].object;
+			
+			if (this.hoveredDice !== intersectedDice) {
+				// Get dice info
+				const diceInfo = this.getDiceResults(this.diceList.indexOf(intersectedDice));
+				
+				// Get 3D position
+				const position = intersectedDice.position;
+				
+				// Project 3D position to screen coordinates
+				const vector = position.clone();
+				vector.project(this.camera);
+				const x = (vector.x * 0.5 + 0.5) * rect.width;
+				const y = (-vector.y * 0.5 + 0.5) * rect.height;
+				
+				// Create event data with position information
+				const eventData = {
+					...diceInfo,
+					position: {
+						x: position.x,
+						y: position.y,
+						z: position.z
+					},
+					screenPosition: {
+						x,
+						y
+					},
+					scale: intersectedDice.scale.x
+				};
+
+				// Emit hover event
+				this.onDiceHover(eventData);
+				
+				const hoverEvent = new CustomEvent('diceHover', { detail: eventData });
+				document.dispatchEvent(hoverEvent);
+
+				this.hoveredDice = intersectedDice;
+			}
+		} else {
+			if (this.hoveredDice !== null) {
+				// Emit hover event with null to indicate no hover
+				this.onDiceHover(null);
+				
+				const hoverEvent = new CustomEvent('diceHover', { detail: null });
+				document.dispatchEvent(hoverEvent);
+
+				this.hoveredDice = null;
+			}
+		}
+	}
+
+	onMouseClick(event) {
+		if (!this.enableDiceSelection || this.rolling || !this.hoveredDice) return;
+
+		const diceInfo = this.getDiceResults(this.diceList.indexOf(this.hoveredDice));
+		
+		// Get 3D position
+		const position = this.hoveredDice.position;
+		
+		// Project 3D position to screen coordinates
+		const rect = this.container.getBoundingClientRect();
+		const vector = position.clone();
+		vector.project(this.camera);
+		const x = (vector.x * 0.5 + 0.5) * rect.width;
+		const y = (-vector.y * 0.5 + 0.5) * rect.height;
+		
+		// Create event data with position information
+		const eventData = {
+			...diceInfo,
+			position: {
+				x: position.x,
+				y: position.y,
+				z: position.z
+			},
+			screenPosition: {
+				x,
+				y
+			},
+			scale: this.hoveredDice.scale.x
+		};
+		
+		this.onDiceClick(eventData);
+		
+		const clickEvent = new CustomEvent('diceClick', { detail: eventData });
+		document.dispatchEvent(clickEvent);
 	}
 }
 
