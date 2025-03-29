@@ -1,7 +1,7 @@
 {
   "name": "@drdreo/dice-box-threejs",
   "author": {
-    "name": "Frank Ali"
+    "name": "DrDreo"
   },
   "description": "A 3D environment for rolling game dice using threejs and cannon-es",
   "private": false,
@@ -14,7 +14,7 @@
     "tabletop",
     "typescript"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "repository": {
     "type": "git",

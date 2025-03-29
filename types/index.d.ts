@@ -92,4 +92,6 @@ export class DiceBox {
     getDiceResults(id?: number): DiceResult | DiceResults;
     
     updateConfig(options: Partial<DiceConfig>): Promise<void>;
-} 
+}
+
+export { DiceBox as default }; 
