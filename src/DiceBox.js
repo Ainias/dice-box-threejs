@@ -1176,10 +1176,7 @@ class DiceBox {
 			const intersectedDice = intersects[0].object;
 			
 			if (this.hoveredDice !== intersectedDice) {
-				// Get dice info
 				const diceInfo = this.getDiceResults(this.diceList.indexOf(intersectedDice));
-				
-				// Get 3D position
 				const position = intersectedDice.position;
 				
 				// Project 3D position to screen coordinates
@@ -1188,7 +1185,6 @@ class DiceBox {
 				const x = (vector.x * 0.5 + 0.5) * rect.width;
 				const y = (-vector.y * 0.5 + 0.5) * rect.height;
 				
-				// Create event data with position information
 				const eventData = {
 					...diceInfo,
 					position: {
@@ -1203,7 +1199,6 @@ class DiceBox {
 					scale: intersectedDice.scale.x
 				};
 
-				// Emit hover event
 				this.onDiceHover(eventData);
 				
 				const hoverEvent = new CustomEvent('diceHover', { detail: eventData });
@@ -1229,9 +1224,7 @@ class DiceBox {
 
 		const diceInfo = this.getDiceResults(this.diceList.indexOf(this.hoveredDice));
 		
-		// Get 3D position
-		const position = this.hoveredDice.position;
-		
+		const position = this.hoveredDice.position;		
 		// Project 3D position to screen coordinates
 		const rect = this.container.getBoundingClientRect();
 		const vector = position.clone();
@@ -1239,7 +1232,6 @@ class DiceBox {
 		const x = (vector.x * 0.5 + 0.5) * rect.width;
 		const y = (-vector.y * 0.5 + 0.5) * rect.height;
 		
-		// Create event data with position information
 		const eventData = {
 			...diceInfo,
 			position: {
