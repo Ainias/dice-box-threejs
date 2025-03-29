@@ -6,7 +6,8 @@ const root = resolve(__dirname, 'src')
 const outDir = resolve(__dirname, 'dist')
 
 export default defineConfig({
-  root,
+  root: '.',
+  publicDir: 'public',
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
@@ -15,5 +16,11 @@ export default defineConfig({
     },
     outDir,
     emptyOutDir: true,
+  },
+  optimizeDeps: {
+    include: ['three', 'cannon-es']
+  },
+  server: {
+    open: true
   }
 })
