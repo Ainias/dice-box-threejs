@@ -41,7 +41,7 @@ class DiceBox {
 	constructor(element_container, options = {}) {
 		//private variables
 		this.initialized = false
-		this.container = document.querySelector(element_container);
+		this.container = element_container instanceof HTMLElement ? element_container : document.querySelector(element_container);
 		this.dimensions = new THREE.Vector2(this.container.clientWidth, this.container.clientHeight)
 		this.adaptive_timestep = false;
 		this.last_time = 0;
@@ -138,6 +138,7 @@ class DiceBox {
 		if (this.light) this.light.castShadow = this.shadows;
 		if (this.desk) this.desk.receiveShadow = this.shadows;
 	}
+
 	disableShadows() {
 		this.shadows = false;
 		if (this.renderer) this.renderer.shadowMap.enabled = this.shadows;
