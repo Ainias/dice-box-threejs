@@ -53,7 +53,6 @@ class DiceBox {
 		this.raycaster = new THREE.Raycaster();
 		this.mouse = new THREE.Vector2();
 		this.hoveredDice = null;
-		this.hoverCircle = null;
 
 		this.display = {
 			currentWidth: null,
@@ -186,20 +185,8 @@ class DiceBox {
 
 		this.renderer.render(this.scene, this.camera);
 
-		// Create hover circle
 		if (this.enableDiceSelection) {
-			const circleGeometry = new THREE.RingGeometry(1, 1.1, 32);
-			const circleMaterial = new THREE.MeshBasicMaterial({ 
-				color: 0xffff00,
-				transparent: true,
-				opacity: 0.5,
-				side: THREE.DoubleSide
-			});
-			this.hoverCircle = new THREE.Mesh(circleGeometry, circleMaterial);
-			this.hoverCircle.visible = false;
-			this.scene.add(this.hoverCircle);
-
-			// Add event listeners
+			// Add mouse event listeners when dice selection is enabled
 			this.container.addEventListener('mousemove', this.onMouseMove.bind(this));
 			this.container.addEventListener('click', this.onMouseClick.bind(this));
 		}
@@ -936,10 +923,6 @@ class DiceBox {
 		while (dice = this.diceList.pop()) {
 			this.scene.remove(dice); 
 			if (dice.body) this.world.removeBody(dice.body);
-		}
-		if (this.hoverCircle) {
-			this.hoverCircle.visible = false;
-			this.hoveredDice = null;
 		}
 		this.renderer.render(this.scene, this.camera);
 
