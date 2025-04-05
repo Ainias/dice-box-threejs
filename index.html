@@ -1,129 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dice Box ThreeJS Demo</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
-
-        #scene-container {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #controls {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 5px;
-            color: white;
-        }
-
-        button {
-            padding: 8px 16px;
-            margin: 5px;
-            border: none;
-            border-radius: 4px;
-            background: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #45a049;
-        }
-
-        .dice-hover-overlay {
-            position: absolute;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: all 0.2s ease;
-            border: 2px solid yellow;
-            border-radius: 50%;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="scene-container"></div>
-    <div id="controls">
-        <button onclick="rollDice('1d20')">Roll d20</button>
-        <button onclick="rollDice('4d6')">Roll 4d6</button>
-        <button onclick="rollDice('1d100')">Roll d100</button>
-    </div>
-    <script type="module">
-        import { DiceBox } from './src/DiceBox.js';
-
-        // Create a new dice box
-        window.Box = new DiceBox("#scene-container", {
-            enableDiceSelection: true,
-            onDiceHover: (diceInfo) => {
-                console.log('Dice hovered:', diceInfo);
-            },
-            onDiceClick: (diceInfo) => {
-                console.log('Dice clicked:', diceInfo);
-            },
-            onRollComplete: (results) => {
-                console.log('Roll results:', results);
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dice Box ThreeJS Demo</title>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+                font-family: Arial, sans-serif;
             }
-        });
 
-        document.addEventListener("diceHover", (e => {
-            const diceInfo = e.detail;
-            if (diceInfo) {
-                // Create or update an HTML overlay for the hovered die
-                let overlay = document.querySelector('.dice-hover-overlay');
-                if (!overlay) {
-                    overlay = document.createElement('div');
-                    overlay.className = 'dice-hover-overlay';
-                    document.querySelector('#scene-container').appendChild(overlay);
+            #scene-container {
+                width: 100vw;
+                height: 100vh;
+                position: relative;
+                overflow: hidden;
+            }
+
+            #controls {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 10px;
+                border-radius: 5px;
+                color: white;
+            }
+
+            button {
+                padding: 8px 16px;
+                margin: 5px;
+                border: none;
+                border-radius: 4px;
+                background: #4caf50;
+                color: white;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #45a049;
+            }
+
+            .dice-hover-overlay {
+                position: absolute;
+                pointer-events: none;
+                transform: translate(-50%, -50%);
+                transition: all 0.2s ease;
+                border: 2px solid yellow;
+                border-radius: 50%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="scene-container"></div>
+        <div id="controls">
+            <button onclick="rollDice('1d20')">Roll d20</button>
+            <button onclick="rollDice('4d6')">Roll 4d6</button>
+            <button onclick="rollDice('1d100')">Roll d100</button>
+        </div>
+        <script type="module">
+            import { DiceBox } from "./src/DiceBox.js";
+
+            // Create a new dice box
+            window.Box = new DiceBox("#scene-container", {
+                enableDiceSelection: true,
+                onDiceHover: (diceInfo) => {
+                    console.log("Dice hovered:", diceInfo);
+                },
+                onDiceClick: (diceInfo) => {
+                    console.log("Dice clicked:", diceInfo);
+                },
+                onRollComplete: (results) => {
+                    console.log("Roll results:", results);
                 }
+            });
 
-                // Position the overlay using the screen coordinates
-                overlay.style.position = 'absolute';
-                overlay.style.left = `${diceInfo.screenPosition.x}px`;
-                overlay.style.top = `${diceInfo.screenPosition.y}px`;
+            document.addEventListener("diceHover", (e) => {
+                const diceInfo = e.detail;
+                if (diceInfo) {
+                    // Create or update an HTML overlay for the hovered die
+                    let overlay = document.querySelector(".dice-hover-overlay");
+                    if (!overlay) {
+                        overlay = document.createElement("div");
+                        overlay.className = "dice-hover-overlay";
+                        document.querySelector("#scene-container").appendChild(overlay);
+                    }
 
-                // Scale the overlay based on the dice size
-                const size = diceInfo.scale * 100; // Adjust multiplier as needed
-                overlay.style.width = `${size}px`;
-                overlay.style.height = `${size}px`;
+                    // Position the overlay using the screen coordinates
+                    overlay.style.position = "absolute";
+                    overlay.style.left = `${diceInfo.screenPosition.x}px`;
+                    overlay.style.top = `${diceInfo.screenPosition.y}px`;
 
-                // Style the overlay
-                overlay.style.border = '2px solid yellow';
-                overlay.style.borderRadius = '50%';
-                overlay.style.pointerEvents = 'none';
-                overlay.style.transition = 'all 0.5s ease';
-            } else {
-                // Remove hover effect when not hovering
-                const overlay = document.querySelector('.dice-hover-overlay');
-                if (overlay) overlay.remove();
-            }
-        }));
+                    // Scale the overlay based on the dice size
+                    const size = diceInfo.scale * 100; // Adjust multiplier as needed
+                    overlay.style.width = `${size}px`;
+                    overlay.style.height = `${size}px`;
 
+                    // Style the overlay
+                    overlay.style.border = "2px solid yellow";
+                    overlay.style.borderRadius = "50%";
+                    overlay.style.pointerEvents = "none";
+                    overlay.style.transition = "all 0.5s ease";
+                } else {
+                    // Remove hover effect when not hovering
+                    const overlay = document.querySelector(".dice-hover-overlay");
+                    if (overlay) overlay.remove();
+                }
+            });
 
-        window.Box.initialize();
+            window.Box.initialize();
 
-        // Make rollDice function available globally
-        window.rollDice = (notation) => {
-            Box.roll(notation);
-        };
+            // Make rollDice function available globally
+            window.rollDice = (notation) => {
+                Box.roll(notation);
+            };
 
-        // Initial roll
-        setTimeout(() => {
-            Box.roll("1d20");
-        }, 1000);
-    </script>
-</body>
-
+            // Initial roll
+            setTimeout(() => {
+                Box.roll("1d20");
+            }, 1000);
+        </script>
+    </body>
 </html>

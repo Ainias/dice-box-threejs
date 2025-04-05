@@ -1,4 +1,5 @@
 # dice-box-threejs
+
 3D Dice implemented with ThreeJS and Cannon ES
 
 Based on [Major's 3D Dice](https://majorvictory.github.io/3DDiceRoller/)
@@ -9,14 +10,17 @@ Why another dice roller when you have [@3d-dice/dice-box](https://github.com/3d-
 Teall dice had already solved predeterministic rolling, which is a feature some developers really need. Major's 3D dice are based on Teall Dice.
 
 ## Demo
+
 https://codesandbox.io/s/dice-box-threejs-j79h35?file=/src/index.js
 
 ## Install using NPM
+
 ```
 npm install @3d-dice/dice-box-threejs
 ```
 
 ## Config Options
+
 ```
 const defaultConfig = {
 	framerate: (1/60),
@@ -42,8 +46,11 @@ const defaultConfig = {
 ```
 
 ## Getting Results
+
 ### There are three ways to get results
+
 1. You can define an `onRollComplete` callback function when creating the Dice Box
+
 ```
 const Box = new DiceBox("#scene-container",{
   onRollComplete: (results) => {
@@ -51,13 +58,17 @@ const Box = new DiceBox("#scene-container",{
   }
 });
 ```
+
 2. You can listen for the custom event that is triggered when results are ready
+
 ```
 document.addEventListener("rollComplete",(e => {
   console.log(`I've got custom event results :>> `, e.detail);
 }))
 ```
+
 3. You can await the results from the `roll` method. Just be sure the function this call is in is `async`
+
 ```
 setTimeout(async () => {
   const result = await Box.roll("6d6")
@@ -66,11 +77,14 @@ setTimeout(async () => {
 ```
 
 ## Dice Selection
+
 You can enable hover and click detection on dice by setting `enableDiceSelection: true` in the config. This will:
+
 - Emit events when hovering over and clicking dice
 - Allow you to implement your own hover effects and click behaviors
 
 ### Using Callbacks
+
 ```
 const Box = new DiceBox("#scene-container", {
   enableDiceSelection: true,
@@ -84,6 +98,7 @@ const Box = new DiceBox("#scene-container", {
 ```
 
 ### Using Events
+
 ```
 document.addEventListener("diceHover", (e => {
   console.log('Hovering over dice:', e.detail);
@@ -95,11 +110,13 @@ document.addEventListener("diceClick", (e => {
 ```
 
 ### Implementing Custom Hover Effects
+
 You can implement your own hover effects in several ways:
 
 1. Using HTML overlays:
-```javascript
-// Add this CSS to your stylesheet
+
+```css
+/*Add this CSS to your stylesheet*/
 .dice-hover-overlay {
     position: absolute;
     pointer-events: none;
@@ -109,12 +126,14 @@ You can implement your own hover effects in several ways:
     border-radius: 50%;
 }
 
-// Add this to your container element
+/*Add this to your container element*/
 #scene-container {
     position: relative; /* Required for absolute positioning of overlay */
     overflow: hidden;
 }
+```
 
+```js
 // JavaScript for handling hover events
 document.addEventListener("diceHover", (e => {
     const diceInfo = e.detail;
@@ -126,11 +145,11 @@ document.addEventListener("diceHover", (e => {
             overlay.className = 'dice-hover-overlay';
             document.querySelector('#scene-container').appendChild(overlay);
         }
-        
+
         // Position the overlay using the screen coordinates
         overlay.style.left = `${diceInfo.screenPosition.x}px`;
         overlay.style.top = `${diceInfo.screenPosition.y}px`;
-        
+
         // Scale the overlay based on the dice size
         const size = diceInfo.scale * 100; // Adjust multiplier as needed
         overlay.style.width = `${size}px`;
@@ -144,14 +163,15 @@ document.addEventListener("diceHover", (e => {
 ```
 
 2. Using Three.js effects:
+
 ```javascript
-document.addEventListener("diceHover", (e => {
+document.addEventListener("diceHover", (e) => {
     const diceInfo = e.detail;
     if (diceInfo) {
         // Apply Three.js effects using the 3D position
         // Example: Create a ring around the dice
         const ringGeometry = new THREE.RingGeometry(diceInfo.scale, diceInfo.scale * 1.2, 32);
-        const ringMaterial = new THREE.MeshBasicMaterial({ 
+        const ringMaterial = new THREE.MeshBasicMaterial({
             color: 0xffff00,
             transparent: true,
             opacity: 0.5,
@@ -160,21 +180,22 @@ document.addEventListener("diceHover", (e => {
         const ring = new THREE.Mesh(ringGeometry, ringMaterial);
         ring.position.set(diceInfo.position.x, diceInfo.position.y, diceInfo.position.z);
         scene.add(ring);
-        
+
         // Store reference to remove later
         ring.userData.isHoverRing = true;
     } else {
         // Remove effects
-        scene.children.forEach(child => {
+        scene.children.forEach((child) => {
             if (child.userData.isHoverRing) {
                 scene.remove(child);
             }
         });
     }
-}));
+});
 ```
 
 The dice info object contains:
+
 - `type`: The type of die (e.g., "d6")
 - `sides`: Number of sides
 - `id`: Index of the die in the current roll
@@ -187,10 +208,20 @@ The dice info object contains:
 Note: When using HTML overlays, make sure your container element has `position: relative` set, and the overlay uses `transform: translate(-50%, -50%)` to center it on the dice. The `screenPosition` coordinates are relative to the container element.
 
 ## Predetermined Outcomes
+
 As mentioned previously, this project was forked for it's predeterministic rolling capability. The notation to roll your predetermined outcomes looks like this:
+
 ```
 Box.roll("6d6@4,4,4,4,4,4") // rolls six dice that will land on 4's
 ```
 
 ## Notes
+
 In order to use textures or sounds, you will need to manually copy the assets out of the `./public` folder and into your static assets folder where you're building your app.
+
+### Development
+
+#### Publish
+
+1. Update the version in `package.json`
+3. Run `npm publish` to publish the package to npm

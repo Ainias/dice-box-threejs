@@ -1,5 +1,5 @@
-import type * as THREE from 'three';
-import type * as CANNON from 'cannon-es';
+import type * as THREE from "three";
+import type * as CANNON from "cannon-es";
 
 export interface DiceConfig {
     assetPath?: string;
@@ -8,8 +8,8 @@ export interface DiceConfig {
     volume?: number;
     color_spotlight?: number;
     shadows?: boolean;
-    theme_surface?: 'green-felt' | 'wood-table' | 'wood-tray' | 'metal';
-    sound_dieMaterial?: 'plastic' | 'metal' | 'wood';
+    theme_surface?: "green-felt" | "wood-table" | "wood-tray" | "metal";
+    sound_dieMaterial?: "plastic" | "metal" | "wood";
     theme_customColorset?: any;
     theme_colorset?: string;
     theme_texture?: string;
@@ -70,28 +70,28 @@ export interface DiceResults {
 
 export class DiceBox {
     constructor(element_container: string | HTMLElement, options?: Partial<DiceConfig>);
-    
+
     initialized: boolean;
     container: HTMLElement;
     dimensions: THREE.Vector2;
     scene: THREE.Scene;
     world: CANNON.World;
     camera: THREE.PerspectiveCamera;
-    
+
     initialize(): Promise<void>;
     enableShadows(): void;
     disableShadows(): void;
     setDimensions(dimensions: THREE.Vector2): void;
     clearDice(): void;
-    
+
     roll(notationString: string): Promise<DiceResults>;
     reroll(diceIdArray: number[]): Promise<DiceResult[]>;
     add(notationString: string): Promise<DiceResult[]>;
     remove(diceIdArray: number[]): Promise<DiceResult[]>;
-    
+
     getDiceResults(id?: number): DiceResult | DiceResults;
-    
+
     updateConfig(options: Partial<DiceConfig>): Promise<void>;
 }
 
-export { DiceBox as default }; 
+export { DiceBox as default };
