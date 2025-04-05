@@ -53,6 +53,7 @@ export interface DiceResult {
     reason?: string;
     position: DicePosition;
     screenPosition: DiceScreenPosition;
+    scale: number;
 }
 
 export interface DiceSet {
