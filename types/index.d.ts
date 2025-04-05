@@ -51,6 +51,8 @@ export interface DiceResult {
     id: number;
     value: number;
     reason?: string;
+    position: DicePosition;
+    screenPosition: DiceScreenPosition;
 }
 
 export interface DiceSet {
@@ -89,7 +91,8 @@ export class DiceBox {
     add(notationString: string): Promise<DiceResult[]>;
     remove(diceIdArray: number[]): Promise<DiceResult[]>;
 
-    getDiceResults(id?: number): DiceResult | DiceResults;
+    getDiceResults(id: number): DiceResult;
+    getDiceResults(): DiceResults;
 
     updateConfig(options: Partial<DiceConfig>): Promise<void>;
 }
