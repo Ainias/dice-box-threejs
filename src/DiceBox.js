@@ -22,7 +22,7 @@ const defaultConfig = {
     theme_texture: "",
     theme_material: "glass",
     gravity_multiplier: 400,
-    light_intensity: 0.7,
+    light_intensity: 2,
     baseScale: 100,
     strength: 1,
     iterationLimit: 1000,
