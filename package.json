@@ -47,19 +47,15 @@
         "prepublishOnly": "npm run build"
     },
     "devDependencies": {
-        "@types/three": "^0.143.0",
+        "@types/three": "^0.176.0",
         "cannon-es-debugger": "^1.0.0",
         "prettier": "3.5.3",
-        "typescript": "^5.4.2",
-        "vite": "^3.0.8"
-    },
-    "dependencies": {
-        "cannon-es": "^0.20.0",
-        "three": "^0.143.0"
+        "typescript": "^5.8.3",
+        "vite": "^3.2.11"
     },
     "peerDependencies": {
         "cannon-es": "^0.20.0",
-        "three": "^0.143.0"
+        "three": "^0.176.0"
     },
     "packageManager": "pnpm@10.6.2+sha256.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b",
     "pnpm": {
