@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 .history
 
-# Keep types directory
+# Keep types & public directory
 !types/
+!public/
