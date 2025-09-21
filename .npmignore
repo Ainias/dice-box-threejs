@@ -26,4 +26,3 @@ dist-ssr
 
 # Keep types & public directory
 !types/
-!public/
