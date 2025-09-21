@@ -4,14 +4,14 @@ export const MATERIALTYPES = {
     },
     perfectmetal: {
         name: "Perfect Metal",
-        color: 0xdddddd,
-        roughness: 0,
+        color: 0xffffff,
+        roughness: 0.1,
         metalness: 1,
         envMapIntensity: 1
     },
     metal: {
         name: "Metal",
-        color: 0xdddddd,
+        color: 0xffffff,
         roughness: 0.5,
         metalness: 0.6,
         envMapIntensity: 1
@@ -31,3 +31,4 @@ export const MATERIALTYPES = {
         envMapIntensity: 1
     }
 };
+//# sourceMappingURL=materialtypes.js.map

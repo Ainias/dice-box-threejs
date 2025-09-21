@@ -214,7 +214,7 @@ export const TEXTURELIST = {
         material: "metal"
     },
     none: {
-        name: "none",
+        name: "Default",
         composite: "source-over",
         source: "",
         source_bump: "",

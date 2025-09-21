@@ -1,0 +1,23 @@
+{
+  "extends": "@ainias42/config/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "outDir": "./dist",
+    "declaration": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "../../node_modules",
+    "dist/**/*",
+    "dist/src/**/*"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js"
+  ]
+}

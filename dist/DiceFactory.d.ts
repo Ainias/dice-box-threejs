@@ -1,0 +1,51 @@
+export class DiceFactory {
+    static dice: {};
+    constructor(options: any);
+    geometries: {};
+    materials_cache: {};
+    cache_hits: number;
+    cache_misses: number;
+    label_color: string;
+    dice_color: string;
+    edge_color: string;
+    label_outline: string;
+    dice_texture: string;
+    dice_material: string;
+    material_options: {
+        specular: number;
+        color: number;
+        shininess: number;
+        flatShading: boolean;
+    };
+    updateConfig(options?: {}): void;
+    setBumpMapping(bumpMapping: any): void;
+    bumpMapping: any;
+    create(type: any): any;
+    get(type: any): any;
+    getGeometry(type: any): any;
+    scaleGeometry(): void;
+    createMaterials(diceobj: any, size: any, margin: any, allowcache?: boolean, d4specialindex?: number): (THREE.MeshStandardMaterial | THREE.MeshPhongMaterial)[];
+    createTextMaterial(diceobj: any, labels: any, index: any, size: any, margin: any, texture: any, forecolor: any, outlinecolor: any, backcolor: any, allowcache: any): any;
+    applyColorSet(colordata: any): void;
+    colordata: any;
+    setMaterialInfo(colorset?: string): void;
+    dice_color_rand: any;
+    label_color_rand: any;
+    label_outline_rand: any;
+    dice_texture_rand: any;
+    dice_material_rand: any;
+    edge_color_rand: any;
+    calc_texture_size(approx: any): number;
+    createGeometry(type: any, radius: any, onlyShape?: boolean): THREE.BufferGeometry<THREE.NormalBufferAttributes, THREE.BufferGeometryEventMap> | CANNON.ConvexPolyhedron | null;
+    fixmaterials(mesh: any, unique_sides: any): any;
+    create_shape(vertices: any, faces: any, radius: any): CANNON.ConvexPolyhedron;
+    make_geom(vertices: any, faces: any, radius: any, tab: any, af: any): THREE.BufferGeometry<THREE.NormalBufferAttributes, THREE.BufferGeometryEventMap>;
+    make_d10_geom(vertices: any, faces: any, radius: any, tab: any, af: any): THREE.BufferGeometry<THREE.NormalBufferAttributes, THREE.BufferGeometryEventMap>;
+    chamfer_geom(vectors: any, faces: any, chamfer: any): {
+        vectors: any[];
+        faces: any[][];
+    };
+    create_geom(vertices: any, faces: any, radius: any, tab: any, af: any, chamfer: any): THREE.BufferGeometry<THREE.NormalBufferAttributes, THREE.BufferGeometryEventMap>;
+}
+import * as THREE from "three";
+import * as CANNON from "cannon-es";

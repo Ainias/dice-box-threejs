@@ -1,8 +1,5 @@
 {
-    "name": "@drdreo/dice-box-threejs",
-    "author": {
-        "name": "DrDreo"
-    },
+    "name": "@3d-dice/dice-box-threejs",
     "description": "A 3D environment for rolling game dice using threejs and cannon-es",
     "private": false,
     "keywords": [
@@ -18,49 +15,53 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/drdreo/dice-box-threejs.git"
+        "url": "git+https://github.com/Ainias/dice-box-threejs.git"
     },
     "bugs": {
-        "url": "https://github.com/drdreo/dice-box-threejs/issues"
+        "url": "https://github.com/Ainias/dice-box-threejs/issues"
     },
     "files": [
         "dist",
         "types"
     ],
     "type": "module",
-    "types": "./types/index.d.ts",
+    "types": "./dist/index.d.ts",
     "main": "./dist/dice-box-threejs.umd.js",
     "module": "./dist/dice-box-threejs.es.js",
     "exports": {
         ".": {
-            "types": "./types/index.d.ts",
-            "import": "./dist/dice-box-threejs.es.js",
-            "require": "./dist/dice-box-threejs.umd.js"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
         },
-        "./sounds/*": "./dist/sounds/*",
-        "./textures/*": "./dist/textures/*"
+        "./sounds/*": "./public/sounds/*",
+        "./textures/*": "./public/textures/*"
     },
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+        "build": "tsc && tsc-alias",
         "preview": "vite preview",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build",
+        "lint:noCache": "eslint \"src/{**/*,*}.{js,jsx,tsx,ts}\" --max-warnings 0",
+        "lint": "npm run lint:noCache -- --cache",
+        "lint:fix": "npm run lint -- --fix",
+        "typecheck": "tsc --noEmit",
+        "prettier": "npm run prettier:list -- --write",
+        "prettier:list": "prettier --list-different \"src/**/*.{ts,tsx,js,jsx,json}\"",
+        "stylelint": "stylelint --allow-empty-input \"src/**/*.{css,scss}\"",
+        "stylelint:fix": "npm run stylelint -- --fix"
     },
     "devDependencies": {
-        "@types/three": "^0.176.0",
+        "@types/node": "^24.5.2",
+        "@ainias42/config": "^1.0.3",
+        "@types/three": "^0.180.0",
         "cannon-es-debugger": "^1.0.0",
-        "prettier": "3.5.3",
-        "typescript": "^5.8.3",
-        "vite": "^3.2.11"
+        "prettier": "3.6.2",
+        "typescript": "^5.9.2",
+        "vite": "^7.1.6",
+        "tsc-alias": "^1.8.16"
     },
     "peerDependencies": {
         "cannon-es": "^0.20.0",
         "three": "^0.176.0"
-    },
-    "packageManager": "pnpm@10.6.2+sha256.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b",
-    "pnpm": {
-        "onlyBuiltDependencies": [
-            "esbuild"
-        ]
     }
 }

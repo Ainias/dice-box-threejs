@@ -7,6 +7,11 @@ import { DiceFactory } from "./DiceFactory.js";
 import { DiceNotation } from "./DiceNotation.js";
 // import CannonDebugger from 'cannon-es-debugger'
 import { debounce } from "./helpers";
+import { playSound } from "@/sound/playSound.js";
+import { loadSound } from "@/sound/loadSound.js";
+import { hasChanged } from "@/helper/hasChanged.js";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import { PMREMGenerator } from "three";
 
 const defaultConfig = {
     assetPath: "./",
@@ -90,15 +95,8 @@ class DiceBox {
         this.notationVectors = null;
         this.dieIndex = 0;
 
-        //public variables
-        // this.framerate = (1/60);
-        // this.sounds = false;
-        // this.volume = 100;
-        // this.theme_surface = "green-felt"
-        // this.sound_dieMaterial = 'plastic'
         this.soundDelay = 10; // time between sound effects in ms
         this.animstate = "";
-        // this.tally = true;
 
         this.selector = {
             animate: true,
@@ -106,13 +104,6 @@ class DiceBox {
             intersected: null,
             dice: []
         };
-
-        // this.colors = {
-        // 	ambient:  0xf0f5fb,
-        // 	spotlight: 0xefdfd5
-        // };
-
-        // this.shadows = true
 
         // merge this with default config and any options coming in
         Object.assign(this, defaultConfig, options);
@@ -176,10 +167,13 @@ class DiceBox {
             });
         }
 
-        // this.DiceFactory.setCubeMap(`./themes/${this.theme_surface}/`,THEMES[this.theme_surface].cubeMap)
+        // Needed for roughness of materials to look correct
+        const environment = new RoomEnvironment(this.renderer)
+        const pmremGenerator = new PMREMGenerator(this.renderer);
+        this.scene.environment = pmremGenerator.fromScene(environment).texture;
+        pmremGenerator.dispose();
 
         this.initialized = true;
-
         this.renderer.render(this.scene, this.camera);
 
         if (this.enableDiceSelection) {
@@ -299,15 +293,14 @@ class DiceBox {
             wood: 12
         };
 
-        const hassound_dieMaterial = this.colorData.texture.material.match(/wood|metal/g);
-
-        this.sound_dieMaterial = hassound_dieMaterial ? this.colorData.texture.material : "plastic";
+        // const hassound_dieMaterial = this.colorData.texture.material.match(/wood|metal/g);
+        // this.sound_dieMaterial = hassound_dieMaterial ? this.colorData.texture.material : "plastic";
 
         if (!this.sounds_table.hasOwnProperty(this.surface)) {
             this.sounds_table[this.surface] = [];
             let numsounds = surfaces[this.surface];
             for (let s = 1; s <= numsounds; ++s) {
-                const clip = await this.loadAudio(
+                const clip = await loadSound(
                     this.assetPath + "sounds/surfaces/surface_" + this.surface + s + ".mp3"
                 );
                 this.sounds_table[this.surface].push(clip);
@@ -318,7 +311,7 @@ class DiceBox {
             this.sounds_dice["coin"] = [];
             let numsounds = dieMaterials["coin"];
             for (let s = 1; s <= numsounds; ++s) {
-                const clip = await this.loadAudio(this.assetPath + "sounds/dicehit/dicehit_coin" + s + ".mp3");
+                const clip = await loadSound(this.assetPath + "sounds/dicehit/dicehit_coin" + s + ".mp3");
                 this.sounds_dice["coin"].push(clip);
             }
         }
@@ -326,7 +319,7 @@ class DiceBox {
             this.sounds_dice[this.sound_dieMaterial] = [];
             let numsounds = dieMaterials[this.sound_dieMaterial];
             for (let s = 1; s <= numsounds; ++s) {
-                const clip = await this.loadAudio(
+                const clip = await loadSound(
                     this.assetPath + "sounds/dicehit/dicehit_" + this.sound_dieMaterial + s + ".mp3"
                 );
                 this.sounds_dice[this.sound_dieMaterial].push(clip);
@@ -334,45 +327,31 @@ class DiceBox {
         }
     }
 
-    loadAudio(src) {
-        return new Promise((resolve, reject) => {
-            let audio = new Audio();
-            audio.oncanplaythrough = () => resolve(audio);
-            audio.crossOrigin = "anonymous";
-            audio.src = src;
-            audio.onerror = (error) => reject(error);
-        }).catch((e) => {
-            console.error("Unable to load audio");
-        });
-    }
-
     async updateConfig(options = {}) {
-        // if(options.scale && this.scale !== options.scale){
-        // 	this.DiceFactory.updateConfig({
-        // 		scale: options.scale
-        // 	})
-        // }
-        Object.apply(this, options);
+        const {theme_colorset, theme_texture, theme_material, theme_customColorset, surface, sound_dieMaterial} = this
+
+        Object.assign(this, options);
         this.theme_customColorset = options.theme_customColorset ? options.theme_customColorset : null;
-        if (options.theme_colorset) {
-            this.theme_colorset = options.theme_colorset;
-        }
-        if (options.theme_texture) {
-            this.theme_texture = options.theme_texture;
-        }
-        if (options.theme_material) {
-            this.theme_material = options.theme_material;
-        }
-        if (options.theme_colorset || options.theme_texture || options.theme_material || options.theme_customColorset) {
+
+        if (hasChanged(options.theme_colorset, theme_colorset) || hasChanged(options.theme_texture, theme_texture) || hasChanged(options.theme_material, theme_material) || hasChanged(options.theme_customColorset, theme_customColorset)) {
             await this.loadTheme({
                 colorset: this.theme_colorset,
                 texture: this.theme_texture,
                 material: this.theme_material
             });
         }
+
+        if (hasChanged(options.surface, surface) || hasChanged(options.sound_dieMaterial, sound_dieMaterial)){
+            await this.loadSounds();
+        }
+
     }
 
-    setDimensions(dimensions) {
+    /**
+     *
+     * @param dimensions {undefined|THREE.Vector2} if undefined, use container size
+     */
+    setDimensions(dimensions=undefined) {
         this.display.currentWidth = this.container.clientWidth / 2;
         this.display.currentHeight = this.container.clientHeight / 2;
         if (dimensions) {
@@ -789,17 +768,8 @@ class DiceBox {
                     ];
             }
             if (sound) {
-                sound.volume = Math.min(speed / 8000, this.volume / 100);
-                sound.play().catch((error) => {});
+                playSound(sound, speed / 800 * this.volume / 100);
             }
-            // if (isPlaying !== undefined) {
-            // 	isPlaying.then(() => {
-            // 		// Autoplay started!
-            // 	}).catch(error => {
-            // 		// Autoplay was prevented.
-            // 		// console.warn('Sounds muted by autoplay')
-            // 	});
-            // }
             this.lastSoundType = "dice";
         } else {
             // dice to table collision
@@ -812,17 +782,8 @@ class DiceBox {
             let soundlist = this.sounds_table[surface];
             let sound = soundlist[Math.floor(Math.random() * soundlist.length)];
             if (sound) {
-                sound.volume = Math.min(speed / 8000, this.volume / 100);
-                sound.play().catch((error) => {});
+                playSound(sound, speed / 800 * this.volume / 100);
             }
-            // if (isPlaying !== undefined) {
-            // 	isPlaying.then(() => {
-            // 		// Autoplay started!
-            // 	}).catch(error => {
-            // 		// Autoplay was prevented.
-            // 		// console.warn('Sounds muted by autoplay')
-            // 	});
-            // }
             this.lastSoundType = "table";
         }
 

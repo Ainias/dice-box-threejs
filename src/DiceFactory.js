@@ -1,7 +1,7 @@
 "use strict";
 import { DicePreset } from "./DicePreset.js";
-import { MATERIALTYPES } from "./const/materialtypes";
-import { DICE_GEOM } from "./const/dice";
+import { MATERIALTYPES } from "./const/materialtypes.js";
+import { DICE_GEOM } from "./const/dice.js";
 
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
@@ -30,7 +30,7 @@ class DiceFactory {
 
         this.material_options = {
             specular: 0xffffff,
-            color: 0xb5b5b5,
+            color: 0xffffff,
             shininess: 5,
             flatShading: true
         };
@@ -205,9 +205,11 @@ class DiceFactory {
             var mat;
             if (this.dice_material != "none") {
                 mat = new THREE.MeshStandardMaterial(MATERIALTYPES[this.dice_material]);
-                mat.envMapIntensity = 0;
+                // mat.flatShading = true;
+                // mat.envMapIntensity = 0;
             } else {
                 mat = new THREE.MeshPhongMaterial(this.material_options);
+                mat.envMapIntensity = 0;
             }
 
             let canvasTextures;
@@ -540,7 +542,7 @@ class DiceFactory {
         this.label_color = colordata.foreground;
         this.dice_color = colordata.background;
         this.label_outline = colordata.outline;
-        this.dice_texture = colordata.texture;
+        this.dice_texture = colordata?.texture;
         this.dice_material = colordata?.texture?.material || "none";
         this.edge_color = colordata.hasOwnProperty("edge") ? colordata.edge : colordata.background;
     }

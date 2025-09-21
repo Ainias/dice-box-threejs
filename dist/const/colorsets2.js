@@ -1,0 +1,443 @@
+export const COLORSETS = {
+    coin_default: {
+        name: "Gold",
+        description: "Gold Dragonhead",
+        category: "Other",
+        foreground: "#f6c928",
+        background: "#f6c928",
+        outline: "black",
+        texture: "metal"
+    },
+    radiant: {
+        name: "Radiant",
+        category: "Damage Types",
+        foreground: "#F9B333",
+        background: "#FFFFFF",
+        outline: "black",
+        texture: "paper",
+        description: "Radiant"
+    },
+    fire: {
+        name: "Fire",
+        category: "Damage Types",
+        foreground: "#fded84",
+        background: ["#f43c04", "#910200"],
+        outline: "black",
+        texture: "fire",
+        description: "Fire"
+    },
+    ice: {
+        name: "Ice",
+        category: "Damage Types",
+        foreground: "#c6ff00",
+        background: ["#214fa3", "#3c6ac1", "#253f70", "#0b56e2", "#09317a"],
+        outline: "black",
+        texture: "ice",
+        description: "Ice"
+    },
+    poison: {
+        name: "Poison",
+        category: "Damage Types",
+        foreground: "#ff19f4",
+        background: ["#313866", "#504099", "#66409e", "#934fc3", "#c949fc"],
+        outline: "black",
+        texture: "cloudy",
+        description: "Poison"
+    },
+    acid: {
+        name: "Acid",
+        category: "Damage Types",
+        foreground: "#ff0900",
+        background: ["#83b625", "#5ace04", "#69f006", "#b0f006", "#93bc25"],
+        outline: "black",
+        texture: "marble",
+        description: "Acid"
+    },
+    thunder: {
+        name: "Thunder",
+        category: "Damage Types",
+        foreground: "#ffc400",
+        background: "#7D7D7D",
+        outline: "black",
+        texture: "cloudy",
+        description: "Thunder"
+    },
+    lightning: {
+        name: "Lightning",
+        category: "Damage Types",
+        foreground: "#3b6bd3",
+        background: ["#f17105", "#f3ca40", "#eddea4", "#df9a57", "#dea54b"],
+        outline: "#7D7D7D",
+        texture: "ice",
+        description: "Lightning"
+    },
+    air: {
+        name: "Air",
+        category: "Damage Types",
+        foreground: "#656565",
+        background: ["#d0e5ea", "#c3dee5", "#a4ccd6", "#8dafb7", "#80a4ad"],
+        outline: "black",
+        texture: "cloudy",
+        description: "Air"
+    },
+    water: {
+        name: "Water",
+        category: "Damage Types",
+        foreground: "#303030",
+        background: ["#87b8c4", "#77a6b2", "#6b98a3", "#5b8691", "#4b757f"],
+        outline: "black",
+        texture: "water",
+        description: "Water"
+    },
+    earth: {
+        name: "Earth",
+        category: "Damage Types",
+        foreground: "#90fa2d",
+        background: ["#346804", "#184200", "#527f22", "#3a1d04", "#56341a", "#331c17", "#5a352a", "#302210"],
+        outline: "black",
+        texture: "speckles",
+        description: "Earth"
+    },
+    force: {
+        name: "Force",
+        category: "Damage Types",
+        foreground: "white",
+        background: ["#FF97FF", "#FF68FF", "#C651C6"],
+        outline: "#570000",
+        texture: "stars",
+        description: "Force"
+    },
+    psychic: {
+        name: "Psychic",
+        category: "Damage Types",
+        foreground: "#efafff",
+        background: ["#313866", "#504099", "#66409E", "#934FC3", "#C949FC", "#313866"],
+        outline: "black",
+        texture: "speckles",
+        description: "Psychic"
+    },
+    necrotic: {
+        name: "Necrotic",
+        category: "Damage Types",
+        foreground: "#ffffff",
+        background: "#6F0000",
+        outline: "black",
+        texture: "skulls",
+        description: "Necrotic"
+    },
+    pinkdreams: {
+        name: "Pink Dreams",
+        category: "Custom Sets",
+        foreground: "white",
+        background: ["#ff007c", "#df73ff", "#f400a1", "#df00ff", "#ff33cc"],
+        outline: "#570000",
+        texture: "skulls",
+        description: "Pink Dreams, for Ethan"
+    },
+    inspired: {
+        name: "Inspired",
+        category: "Custom Sets",
+        foreground: "#ddfa23",
+        background: "#C4C4B6",
+        outline: "#000000",
+        texture: "none",
+        description: "Inspired, for Austin"
+    },
+    bloodmoon: {
+        name: "Blood Moon",
+        category: "Custom Sets",
+        foreground: "#CDB800",
+        background: "#6F0000",
+        outline: "black",
+        texture: "marble",
+        description: "Blood Moon, for Jared"
+    },
+    starynight: {
+        name: "Stary Night",
+        category: "Custom Sets",
+        foreground: "#4F708F",
+        background: ["#091636", "#233660", "#4F708F"],
+        outline: "white",
+        texture: "speckles",
+        description: "Stary Night, for Mai"
+    },
+    glitterparty: {
+        name: "Glitter Party",
+        category: "Custom Sets",
+        foreground: "white",
+        background: ["#FFB5F5", "#7FC9FF", "#A17FFF"],
+        outline: "none",
+        texture: "glitter",
+        description: "Glitter Party, for Austin"
+    },
+    astralsea: {
+        name: "Astral Sea",
+        category: "Custom Sets",
+        foreground: "#232323",
+        background: "white",
+        outline: "none",
+        texture: "astral",
+        description: "The Astral Sea, for Austin"
+    },
+    bronze: {
+        name: "Thylean Bronze",
+        description: "Thylean Bronze by @SpencerThayer",
+        category: "Custom Sets",
+        foreground: ["#FF9159", "#FFB066", "#FFBF59", "#FFD059"],
+        background: ["#705206", "#7A4E06", "#643100", "#7A2D06"],
+        outline: "black",
+        edge: ["#FF5D0D", "#FF7B00", "#FFA20D", "#FFBA0D"],
+        texture: ["bronze01", "bronze02", "bronze03", "bronze03a", "bronze03b", "bronze04"]
+    },
+    dragons: {
+        name: "Here be Dragons",
+        category: "Custom Sets",
+        foreground: "#FFFFFF",
+        // 			[ red,       black,     blue,      green      white      gold,      silver,    bronze,    copper     brass
+        background: [
+            "#B80000",
+            "#4D5A5A",
+            "#5BB8FF",
+            "#7E934E",
+            "#FFFFFF",
+            "#F6ED7C",
+            "#7797A3",
+            "#A78437",
+            "#862C1A",
+            "#FFDF8A"
+        ],
+        outline: "black",
+        texture: ["dragon", "lizard"],
+        description: "Here be Dragons"
+    },
+    birdup: {
+        name: "Bird Up",
+        category: "Custom Sets",
+        foreground: "#FFFFFF",
+        background: ["#F11602", "#FFC000", "#6EC832", "#0094BC",
+            "#05608D", "#F75680",
+        ],
+        outline: "black",
+        texture: "bird",
+        description: "Bird Up!"
+    },
+    tigerking: {
+        name: "Tiger King",
+        category: "Other",
+        foreground: "#ffffff",
+        background: "#bf992d",
+        outline: "black",
+        texture: ["leopard", "tiger", "cheetah"],
+        description: "Leopard Print"
+    },
+    covid: {
+        name: "Virus",
+        category: "Other",
+        foreground: "#404040",
+        background: ["#a6ff00", "#83b625", "#5ace04", "#69f006", "#b0f006", "#93bc25"],
+        outline: "black",
+        texture: "fire",
+        description: "Covid-19"
+    },
+    acleaf: {
+        name: "Green Dream",
+        category: "Other",
+        foreground: "#00FF00",
+        background: "#07540A",
+        outline: "black",
+        texture: "acleaf",
+        description: "Animal Crossing Leaf"
+    },
+    isabelle: {
+        name: "Bone",
+        category: "Other",
+        foreground: "white",
+        background: "#FEE5CC",
+        outline: "black",
+        texture: "isabelle",
+        description: "Isabelle"
+    },
+    rainbow: {
+        name: "Rainblow",
+        category: "Colors",
+        foreground: ["#FF5959", "#FFA74F", "#FFFF56", "#59FF59", "#2374FF", "#00FFFF", "#FF59FF"],
+        background: ["#900000", "#CE3900", "#BCBC00", "#00B500", "#00008E", "#008282", "#A500A5"],
+        outline: "black",
+        texture: "none",
+        description: "Rainblow"
+    },
+    black: {
+        name: "Black",
+        category: "Colors",
+        foreground: "#ffffff",
+        background: "#000000",
+        outline: "black",
+        texture: "none",
+        description: "Black"
+    },
+    white: {
+        name: "White",
+        category: "Colors",
+        foreground: "#000000",
+        background: "#FFFFFF",
+        outline: "#FFFFFF",
+        texture: "none",
+        description: "White"
+    },
+    // swrpg_abi: {
+    //     name: "Star Wars RPG - Ability",
+    //     category: "Star Wars™ RPG",
+    //     foreground: "#00FF00",
+    //     background: ["#3D9238", "#52B848", "#5EAC56", "#9ECB9A"],
+    //     outline: "#000000",
+    //     texture: "cloudy_2",
+    //     description: "Star Wars™ RPG Ability Dice"
+    // },
+    // swrpg_pro: {
+    //     name: "Star Wars RPG - Proficiency",
+    //     category: "Star Wars™ RPG",
+    //     foreground: "#FFFF00",
+    //     background: ["#CABB1C", "#F9E33B", "#FFE900", "#F0E49D"],
+    //     outline: "#000000",
+    //     texture: "paper",
+    //     description: "Star Wars™ RPG Proficiency Dice"
+    // },
+    // swrpg_dif: {
+    //     name: "Star Wars RPG - Difficulty",
+    //     category: "Star Wars™ RPG",
+    //     foreground: "#8000FC",
+    //     background: ["#39165F", "#664B84", "#50247E", "#745F88"],
+    //     outline: "#000000",
+    //     texture: "cloudy_2",
+    //     description: "Star Wars™ RPG Difficulty Dice"
+    // },
+    // swrpg_cha: {
+    //     name: "Star Wars RPG - Challenge",
+    //     category: "Star Wars™ RPG",
+    //     foreground: "#FF0000",
+    //     background: ["#A91F32", "#EB4254", "#E51836", "#BA3645"],
+    //     outline: "#000000",
+    //     texture: "paper",
+    //     description: "Star Wars™ RPG Challenge Dice"
+    // },
+    // swrpg_boo: {
+    //     name: "Star Wars RPG - Boost",
+    //     category: "Star Wars™ RPG",
+    //     foreground: "#00FFFF",
+    //     background: ["#4B9DC6", "#689FC4", "#85CFF2", "#8FC0D8"],
+    //     outline: "#000000",
+    //     texture: "glitter",
+    //     description: "Star Wars™ RPG Boost Dice"
+    // },
+    // swrpg_set: {
+    //     name: "Star Wars RPG - Setback",
+    //     category: "Star Wars™ RPG",
+    //     foreground: "#111111",
+    //     background: ["#252223", "#241F21", "#282828", "#111111"],
+    //     outline: "#ffffff",
+    //     texture: "glitter",
+    //     description: "Star Wars™ RPG Setback Dice"
+    // },
+    // swrpg_for: {
+    //     name: "Star Wars RPG - Force",
+    //     category: "Star Wars™ RPG",
+    //     foreground: "#000000",
+    //     background: ["#F3F3F3", "#D3D3D3", "#BABABA", "#FFFFFF"],
+    //     outline: "#FFFFFF",
+    //     texture: "stars",
+    //     description: "Star Wars™ RPG Force Dice"
+    // },
+    // swa_red: {
+    //     name: "Armada Attack - Red",
+    //     category: "Star Wars™ Armada",
+    //     foreground: "#ffffff",
+    //     background: ["#440D19", "#8A1425", "#C72336", "#C04551"],
+    //     outline: "none",
+    //     texture: "stainedglass",
+    //     description: "Star Wars™ Armada Red Attack Dice"
+    // },
+    // swa_blue: {
+    //     name: "Armada Attack - Blue",
+    //     category: "Star Wars™ Armada",
+    //     foreground: "#ffffff",
+    //     background: ["#212642", "#28286E", "#2B348C", "#3D4BB5", "#5D64AB"],
+    //     outline: "none",
+    //     texture: "stainedglass",
+    //     description: "Star Wars™ Armada Blue Attack Dice"
+    // },
+    // swa_black: {
+    //     name: "Armada Attack - Black",
+    //     category: "Star Wars™ Armada",
+    //     foreground: "#ffffff",
+    //     background: ["#252223", "#241F21", "#282828", "#111111"],
+    //     outline: "none",
+    //     texture: "stainedglass",
+    //     description: "Star Wars™ Armada Black Attack Dice"
+    // },
+    //
+    // xwing_red: {
+    //     name: "X-Wing Attack - Red",
+    //     category: "Star Wars™ X-Wing",
+    //     foreground: "#ffffff",
+    //     background: ["#440D19", "#8A1425", "#C72336", "#C04551"],
+    //     outline: "none",
+    //     texture: "stars",
+    //     description: "Star Wars™ X-Wing Red Attack Dice"
+    // },
+    // xwing_green: {
+    //     name: "X-Wing Attack - Green",
+    //     category: "Star Wars™ X-Wing",
+    //     foreground: "#ffffff",
+    //     background: ["#3D9238", "#52B848", "#5EAC56", "#9ECB9A"],
+    //     outline: "none",
+    //     texture: "stars",
+    //     description: "Star Wars™ X-Wing Green Attack Dice"
+    // },
+    //
+    // swl_atkred: {
+    //     name: "Legion Attack - Red",
+    //     category: "Star Wars™ Legion",
+    //     foreground: "#ffffff",
+    //     background: ["#440D19", "#8A1425", "#C72336", "#C04551"],
+    //     outline: "none",
+    //     texture: "fire",
+    //     description: "Star Wars™ Legion Red Attack Dice"
+    // },
+    // swl_atkblack: {
+    //     name: "Legion Attack - Black",
+    //     category: "Star Wars™ Legion",
+    //     foreground: "#ffffff",
+    //     background: ["#252223", "#241F21", "#282828", "#111111"],
+    //     outline: "none",
+    //     texture: "fire",
+    //     description: "Star Wars™ Legion Black Attack Dice"
+    // },
+    // swl_atkwhite: {
+    //     name: "Legion Attack - White",
+    //     category: "Star Wars™ Legion",
+    //     foreground: "#000000",
+    //     background: ["#ffffff", "#DFF4FA", "#BCBCBC", "#F1EDE2", "#F2ECE0"],
+    //     outline: "none",
+    //     texture: "fire",
+    //     description: "Star Wars™ Legion White Attack Dice"
+    // },
+    // swl_defred: {
+    //     name: "Legion Defense - Red",
+    //     category: "Star Wars™ Legion",
+    //     foreground: "#ffffff",
+    //     background: ["#440D19", "#8A1425", "#C72336", "#C04551"],
+    //     outline: "none",
+    //     texture: "fire",
+    //     description: "Star Wars™ Legion Red Defense Dice"
+    // },
+    // swl_defwhite: {
+    //     name: "Legion Defense - White",
+    //     category: "Star Wars™ Legion",
+    //     foreground: "#000000",
+    //     background: ["#ffffff", "#DFF4FA", "#BCBCBC", "#F1EDE2", "#F2ECE0"],
+    //     outline: "none",
+    //     texture: "fire",
+    //     description: "Star Wars™ Legion White Defense Dice"
+    // }
+};
+//# sourceMappingURL=colorsets2.js.map

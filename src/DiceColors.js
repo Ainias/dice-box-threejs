@@ -1,5 +1,5 @@
-import { TEXTURELIST } from "./const/texturelist";
-import { COLORSETS } from "./const/colorsets";
+import { TEXTURELIST } from "./const/texturelist.js";
+import { COLORSETS } from "./const/colorsets.js";
 
 export class DiceColors {
     constructor(options = {}) {
@@ -64,11 +64,11 @@ export class DiceColors {
             setName = options.colorset;
         }
         // if colorset has already been created and cached, then return it
-        if (this.colorsets.hasOwnProperty(setName)) {
+        if (this.colorsets.hasOwnProperty(setName) && this.colorsets[setName].textureName === options.texture && this.colorsets[setName].materialName === options.material ) {
             return this.colorsets[setName];
         }
 
-        let colorset = COLORSETS[setName];
+        let colorset = { ...COLORSETS[setName] };
         texture = options.texture || colorset.texture;
 
         // get texture data
@@ -80,8 +80,10 @@ export class DiceColors {
         // if material type was specified then use it
         if (options.material) {
             colorset.texture.material = options.material;
+            colorset.materialName = options.material;
         }
 
+        colorset.textureName = options.texture;
         // save it for later
         this.colorsets[setName] = colorset;
 
