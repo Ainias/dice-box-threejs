@@ -93,7 +93,8 @@ export const COLORSETS = {
         name: "Earth",
         category: "Damage Types",
         foreground: "#99f44e",
-        background: ["#346804", "#184200", "#527f22", "#3a1d04", "#56341a", "#331c17", "#5a352a", "#302210"],
+        background: ["#346804", "#184200", "#3a1d04",
+            "#56341a", "#331c17", "#5a352a", "#302210"],
         outline: "black",
         texture: "speckles",
         description: "Earth"
